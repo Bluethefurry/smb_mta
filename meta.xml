@@ -1,0 +1,5 @@
+<meta>
+<info author="Bluethefurry" name="Advanced Blinker System" version="1.0" type="misc" description="Advanced Blinker System" />
+<script src="blinker_data.lua" type="client" />
+<script src="blinker_c.lua" type="client" />
+</meta>
