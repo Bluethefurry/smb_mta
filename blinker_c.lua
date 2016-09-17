@@ -134,7 +134,19 @@ addCommandHandler("hazards", enableHazards,false,false)
 
 
 
+function onVehLeave(thePlayer)
+if thePlayer == localPlayer then
+		destroyCoronaElement(source,"lfblinker")
+		destroyCoronaElement(source,"rfblinker")
+		destroyCoronaElement(source,"lrblinker")
+		destroyCoronaElement(source,"rrblinker")
+		setElementData(source,"hazards",false)
+		killTimer(blinkTimer)
+		setElementData(source,"hazardsActive",false)
 
+end
+end
+addEventHandler("onClientVehicleExit", getPedOccupiedVehicle(localPlayer), onVehLeave)
 
 
 function checkifBlinking(veh)
