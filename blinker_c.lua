@@ -94,15 +94,17 @@ function drawCoronaPosition(veh)
 	corona1x,corona1y,corona1z = getPositionFromElementOffset(veh,blinker_table[model .. "blinkerFrontx"],blinker_table[model .. "blinkerFronty"],blinker_table[model .. "blinkerFrontz"])
 	corona2x,corona2y,corona2z = getPositionFromElementOffset(veh,blinker_table[model .. "blinkerRearx"],blinker_table[model .. "blinkerReary"],blinker_table[model .. "blinkerRearz"])
 	
-	corona3x,corona3y,corona3z = getPositionFromElementOffset(veh,blinker_table[model .. "blinkerFrontx"],blinker_table[model .. "blinkerFronty"],blinker_table[model .. "blinkerFrontz"])
-	corona4x,corona4y,corona4z = getPositionFromElementOffset(veh,blinker_table[model .. "blinkerRearx"],blinker_table[model .. "blinkerReary"],blinker_table[model .. "blinkerRearz"])
+	corona3x,corona3y,corona3z = getPositionFromElementOffset(veh,blinker_table[model .. "blinkerFrontx"]-blinker_table[model .. "blinkerRearx"]*2,blinker_table[model .. "blinkerFronty"],blinker_table[model .. "blinkerFrontz"])
+	corona4x,corona4y,corona4z = getPositionFromElementOffset(veh,blinker_table[model .. "blinkerRearx"]-blinker_table[model .. "blinkerRearx"]*2,blinker_table[model .. "blinkerReary"],blinker_table[model .. "blinkerRearz"])
 
 		
 		
 		exports.custom_coronas:setCoronaPosition(corona1,corona1x,corona1y,corona1z)
 		exports.custom_coronas:setCoronaPosition(corona2,corona2x,corona2y,corona2z)
-		exports.custom_coronas:setCoronaPosition(-corona3,corona3x,corona3y,corona3z)
-		exports.custom_coronas:setCoronaPosition(-corona4,corona4x,corona4y,corona4z)
+		exports.custom_coronas:setCoronaPosition(corona3,corona3x,corona3y,corona3z)
+		exports.custom_coronas:setCoronaPosition(corona4,corona4x,corona4y,corona4z)
+		
+		
 end
 
 
@@ -110,10 +112,16 @@ end
 function enableHazards(cmd,state)
 if state == "true" then
 
-setElementData(getPedOccupiedVehicle(localPlayer),"hazards",true)
+
+blinkTimer = setTimer(function()
+local blinkState = getElementData(getPedOccupiedVehicle(localPlayer),"hazards")
+setElementData(getPedOccupiedVehicle(localPlayer),"hazards",not blinkState)
+end,1000,0)
+
 
 else
 setElementData(getPedOccupiedVehicle(localPlayer),"hazards",false)
+killTimer(blinkTimer)
 end
 end
 addCommandHandler("hazards", enableHazards,false,false)
